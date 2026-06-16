@@ -72,6 +72,59 @@
     toast._t = setTimeout(() => t.classList.add('hidden'), 3200);
   }
 
+  // ---- readable output + result modal -------------------------------------
+  function stripAnsi(s) {
+    // eslint-disable-next-line no-control-regex
+    return s.replace(/\x1b\[[0-9;?]*[A-Za-z]/g, '').replace(/\x1b\][^\x07]*(\x07|\x1b\\)/g, '');
+  }
+  function cleanOutput(raw) {
+    let s = stripAnsi(raw || '');
+    // Collapse spinner/progress carriage returns: keep the last segment per line.
+    s = s
+      .split('\n')
+      .map((line) => (line.indexOf('\r') >= 0 ? line.split('\r').pop() : line))
+      .join('\n');
+    const lines = s.split('\n');
+    // Drop the leading "$ copilot …" command echo.
+    while (lines.length && lines[0].trim().startsWith('$ ')) lines.shift();
+    return lines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+  }
+
+  function closeResultModal() {
+    const o = $('resultOverlay');
+    if (o) o.remove();
+  }
+
+  function showResultModal(task) {
+    closeResultModal();
+    const ok = task.lastExit === 0;
+    const agentLabel = (agents.find((a) => a.kind === task.agentKind) || {}).displayName || task.agentKind;
+    const body = cleanOutput(task.result || task.log || '');
+    const overlay = el('div', { class: 'modal-overlay', id: 'resultOverlay' });
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeResultModal();
+    });
+    const modal = el(
+      'div',
+      { class: 'modal' },
+      el('div', { class: 'modal-head' },
+        el('div', { class: 'modal-title', text: (ok ? '✅ ' : '⚠ ') + (task.title || 'Task') + (ok ? ' — complete' : ' — finished with issues') }),
+        el('button', { class: 'ghost small', text: 'Close', onClick: closeResultModal }),
+      ),
+      el('div', { class: 'modal-sub', text: agentLabel + ' · ' + task.mode + (typeof task.lastExit === 'number' ? ' · exit ' + task.lastExit : '') }),
+      el('pre', { class: 'modal-body', text: body || '(no output captured)' }),
+      el('div', { class: 'modal-actions' },
+        el('button', { class: 'ghost', text: 'Open task', onClick: () => { closeResultModal(); openTask(task.id); } }),
+        task.column !== 'done'
+          ? el('button', { class: 'primary', text: 'Move to Done', onClick: () => { task.column = 'done'; task.updatedAt = new Date().toISOString(); persist(); renderBoard(); closeResultModal(); } })
+          : null,
+        el('button', { class: 'ghost', text: 'Dismiss', onClick: closeResultModal }),
+      ),
+    );
+    overlay.append(modal);
+    document.body.append(overlay);
+  }
+
   // ---- projects sidebar ----------------------------------------------------
   async function addProject() {
     const dir = await bridge.pickDirectory();
@@ -89,10 +142,40 @@
     const project = { id: uid(), name, path: dir, createdAt: new Date().toISOString() };
     state.projects.push(project);
     state.activeProjectId = project.id;
+    seedStarterTask(project);
     persist();
     renderProjects();
     fireProjectChange();
-    toast('Project added: ' + name);
+    toast('Project added — a starter task is ready in Backlog.');
+  }
+
+  // Every new project gets one ready-to-run, read-only task so the board is
+  // never empty and the user can start running immediately.
+  function seedStarterTask(project) {
+    const firstAgent = foundAgents()[0];
+    state.tasks.push({
+      id: uid(),
+      projectId: project.id,
+      title: 'Explore & summarize this project',
+      prompt:
+        'Give me a concise overview of this project: its purpose, tech stack, ' +
+        'main entry points, and how to build and run it. Then suggest 3 good ' +
+        'first tasks I could pick up.',
+      agentKind: firstAgent ? firstAgent.kind : 'copilot-cli',
+      model: '',
+      effort: '',
+      mode: 'plan',
+      requireReview: false,
+      allowAll: false,
+      allowedTools: ['shell(git)'],
+      column: 'backlog',
+      log: '',
+      result: '',
+      lastExit: null,
+      starter: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
   }
 
   function removeProject(id) {
@@ -462,6 +545,15 @@
     $('runTask').addEventListener('click', runCurrentTask);
     $('cancelTask').addEventListener('click', cancelCurrentTask);
     $('deleteTask').addEventListener('click', deleteCurrentTask);
+    $('viewResult').addEventListener('click', () => {
+      const t = currentTask();
+      if (!t) return;
+      if (!(t.result || t.log)) {
+        toast('No result yet — run the task first.');
+        return;
+      }
+      showResultModal(t);
+    });
   }
 
   function updateRunButtons(isRunning) {
@@ -546,6 +638,7 @@
       runningTasks.delete(t.id);
       const m = /code (\-?\d+)/.exec(ev.message);
       t.lastExit = m ? parseInt(m[1], 10) : 0;
+      t.result = t.log;
       if (t.lastExit === 0 && t.column === 'in_progress') t.column = 'review';
       t.updatedAt = new Date().toISOString();
       if (currentDrawerTaskId === t.id) {
@@ -554,6 +647,9 @@
       }
       persist();
       renderBoard();
+      // Surface a human-readable result so a finished task is never just a card
+      // with nothing obvious to do.
+      showResultModal(t);
     }
   }
 
