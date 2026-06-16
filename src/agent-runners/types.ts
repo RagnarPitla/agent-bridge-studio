@@ -21,6 +21,10 @@ export interface AgentRunRequest {
   prompt: string;
   mode: 'plan' | 'code' | 'qa' | 'review';
   permissions: AgentPermissionPolicy;
+  /** Optional model override (e.g. "auto", "gpt-5.2"). Maps to `--model`. */
+  model?: string;
+  /** Optional reasoning effort. Maps to Copilot CLI `--effort`. */
+  reasoningEffort?: 'none' | 'low' | 'medium' | 'high' | 'xhigh' | 'max';
   env?: Record<string, string>;
 }
 

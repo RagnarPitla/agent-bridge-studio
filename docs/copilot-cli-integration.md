@@ -24,6 +24,31 @@ Useful flags include:
 
 `gh copilot` is also available and delegates to Copilot CLI from PATH.
 
+## Resolving the real binary (PATH shim caveat)
+
+The `copilot` found on `PATH` is frequently a **launcher shim** rather than the
+CLI itself. For example, the VS Code Copilot Chat extension ships a launcher at
+`…/github.copilot-chat/copilotCli/copilot` that cannot report a version and may
+print an interactive prompt:
+
+```text
+Cannot find GitHub Copilot CLI (https://docs.github.com/.../install-copilot-cli)
+Install GitHub Copilot CLI? ['y/N']
+```
+
+Detection must therefore not trust `command -v copilot` alone:
+
+1. Run `copilot --version` **non-interactively** (close stdin) and accept it only
+   if it matches `GitHub Copilot CLI <version>`.
+2. Otherwise fall back to the standalone install at
+   `~/.copilot-cli/<version>/copilot`, choosing the highest version.
+
+The adapter implements this in `src/agent-runners/detect.ts`
+(`resolveCopilotBinary`), and `scripts/check-tools.sh` performs the same
+resolution for shell-based validation. `buildCommand` should invoke the
+resolved absolute path, not the bare `copilot` name, so tasks never launch the
+shim.
+
 ## Recommended MVP command
 
 ```bash

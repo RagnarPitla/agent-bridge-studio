@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent Bridge Studio</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">Agent&nbsp;Bridge&nbsp;Studio</div>
+      <nav id="tabbar" class="tabbar"></nav>
+      <div id="agentStrip" class="agent-strip"></div>
+    </header>
+
+    <div class="app">
+      <aside class="sidebar">
+        <div class="sidebar-head">
+          <span>Projects</span>
+          <button id="addProject" class="ghost small">+ Add</button>
+        </div>
+        <ul id="projectList" class="project-list"></ul>
+      </aside>
+
+      <main class="content">
+        <div id="tabhost" class="tabhost"></div>
+      </main>
+    </div>
+
+    <!-- Task drawer (Board) -->
+    <div id="overlay" class="overlay hidden"></div>
+    <aside id="drawer" class="drawer hidden" aria-hidden="true">
+      <div class="drawer-head">
+        <input id="t_title" class="title-input" placeholder="Task title" />
+        <button id="closeDrawer" class="ghost small">Close</button>
+      </div>
+      <div class="drawer-body">
+        <div class="field">
+          <label for="t_prompt">Description / prompt</label>
+          <textarea id="t_prompt" rows="5" placeholder="Describe the task for the agent…"></textarea>
+        </div>
+        <div class="grid">
+          <div class="field">
+            <label for="t_agent">Agent</label>
+            <select id="t_agent"></select>
+          </div>
+          <div class="field">
+            <label for="t_effort">Thinking level</label>
+            <select id="t_effort">
+              <option value="">Default</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="max">Max</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="field">
+            <label for="t_model">Model (optional)</label>
+            <input id="t_model" type="text" placeholder="auto / gpt-5.2 / claude-…" />
+          </div>
+          <div class="field">
+            <label for="t_mode">Approach</label>
+            <select id="t_mode">
+              <option value="plan">Plan (read-only, safe)</option>
+              <option value="autopilot">Autopilot (edit &amp; run)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field checkbox">
+          <input id="t_review" type="checkbox" />
+          <label for="t_review">Require human review before coding (runs a plan first)</label>
+        </div>
+        <div class="field checkbox">
+          <input id="t_allowAll" type="checkbox" />
+          <label for="t_allowAll">Allow all tools (needed for autopilot)</label>
+        </div>
+        <div class="field">
+          <label for="t_tools">Allowed tools (comma-separated)</label>
+          <input id="t_tools" type="text" placeholder="shell(git), shell(npm)" />
+        </div>
+        <div class="run-row">
+          <button id="runTask" class="primary">Run</button>
+          <button id="cancelTask" class="danger" disabled>Cancel</button>
+          <button id="deleteTask" class="ghost">Delete</button>
+          <span id="t_status" class="status"></span>
+        </div>
+        <div class="field">
+          <label>Output</label>
+          <pre id="t_output" class="output"></pre>
+        </div>
+      </div>
+    </aside>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <!-- Core first, then feature modules register themselves via window.ABS -->
+    <script src="./renderer.js"></script>
+    <script src="./features/context.js"></script>
+    <script src="./features/insights.js"></script>
+    <script src="./features/ideation.js"></script>
+    <script src="./features/changelog.js"></script>
+    <script src="./boot.js"></script>
+  </body>
+</html>

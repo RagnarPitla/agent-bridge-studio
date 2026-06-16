@@ -6,3 +6,6 @@ out/
 !.env.example
 .DS_Store
 *.log
+
+# app data
+.agent-bridge/

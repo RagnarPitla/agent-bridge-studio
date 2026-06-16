@@ -16,6 +16,7 @@ const required = [
   'docs/implementation-plan.md',
   'docs/roadmap.md',
   'src/agent-runners/types.ts',
+  'src/agent-runners/detect.ts',
   'src/agent-runners/copilot-cli.ts',
   'src/agent-runners/claude-code.ts',
   'src/agent-runners/index.ts',
