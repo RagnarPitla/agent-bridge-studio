@@ -60,7 +60,7 @@
 
       function muted(text) {
         return applyStyles(ctx.el('div', { text: text }), {
-          color: '#94a3b8',
+          color: 'var(--muted)',
           fontSize: '13px',
           lineHeight: '1.45'
         });
@@ -68,10 +68,10 @@
 
       function errorBlock(text) {
         return applyStyles(ctx.el('div', { text: text }), {
-          background: 'rgba(127, 29, 29, 0.35)',
-          border: '1px solid rgba(248, 113, 113, 0.45)',
+          background: 'var(--panel2)',
+          border: '1px solid var(--red)',
           borderRadius: '10px',
-          color: '#fecaca',
+          color: 'var(--red)',
           fontSize: '13px',
           lineHeight: '1.45',
           padding: '10px 12px'
@@ -83,10 +83,10 @@
         button.disabled = !!disabled;
         applyStyles(button, {
           alignSelf: 'end',
-          background: disabled ? '#334155' : '#2563eb',
-          border: '1px solid ' + (disabled ? '#475569' : '#3b82f6'),
+          background: disabled ? 'var(--panel2)' : 'var(--accent)',
+          border: '1px solid ' + (disabled ? 'var(--border)' : 'var(--accent)'),
           borderRadius: '9px',
-          color: '#f8fafc',
+          color: 'var(--text)',
           cursor: disabled ? 'not-allowed' : 'pointer',
           fontSize: '13px',
           fontWeight: '600',
@@ -246,21 +246,21 @@
           gridTemplateColumns: 'minmax(180px, 1fr) minmax(150px, 1fr) auto auto'
         });
         var sinceWrap = applyStyles(ctx.el('label'), {
-          color: '#cbd5e1',
+          color: 'var(--muted)',
           display: 'grid',
           fontSize: '12px',
           gap: '6px'
         });
         var sinceSelect = applyStyles(ctx.el('select'), {
-          background: '#0f172a',
-          border: '1px solid #334155',
+          background: 'var(--code-bg)',
+          border: '1px solid var(--border)',
           borderRadius: '9px',
-          color: '#e2e8f0',
+          color: 'var(--text)',
           minHeight: '38px',
           padding: '8px 10px'
         });
         var versionWrap = applyStyles(ctx.el('label'), {
-          color: '#cbd5e1',
+          color: 'var(--muted)',
           display: 'grid',
           fontSize: '12px',
           gap: '6px'
@@ -270,10 +270,10 @@
           type: 'text',
           value: state.version
         }), {
-          background: '#0f172a',
-          border: '1px solid #334155',
+          background: 'var(--code-bg)',
+          border: '1px solid var(--border)',
           borderRadius: '9px',
-          color: '#e2e8f0',
+          color: 'var(--text)',
           minHeight: '20px',
           padding: '8px 10px'
         });
@@ -328,7 +328,7 @@
         });
 
         section.appendChild(applyStyles(ctx.el('h3', { text: 'Commits' }), {
-          color: '#f8fafc',
+          color: 'var(--text)',
           fontSize: '15px',
           margin: '0'
         }));
@@ -343,8 +343,8 @@
             section.appendChild(muted('No commits found (is this a git repo?)'));
           } else {
             var list = applyStyles(ctx.el('div'), {
-              background: '#0f172a',
-              border: '1px solid #334155',
+              background: 'var(--code-bg)',
+              border: '1px solid var(--border)',
               borderRadius: '12px',
               display: 'grid',
               maxHeight: '280px',
@@ -352,14 +352,14 @@
             });
             state.commits.forEach(function (commit) {
               var row = applyStyles(ctx.el('div'), {
-                borderBottom: '1px solid rgba(51, 65, 85, 0.7)',
+                borderBottom: '1px solid var(--border)',
                 display: 'grid',
                 gap: '10px',
                 gridTemplateColumns: '110px 1fr',
                 padding: '9px 12px'
               });
               row.appendChild(applyStyles(ctx.el('code', { text: commit.hash }), {
-                color: '#93c5fd',
+                color: 'var(--text)',
                 fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
                 fontSize: '12px',
                 overflow: 'hidden',
@@ -367,7 +367,7 @@
                 whiteSpace: 'nowrap'
               }));
               row.appendChild(applyStyles(ctx.el('span', { text: commit.subject }), {
-                color: '#e2e8f0',
+                color: 'var(--text)',
                 fontSize: '13px',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -397,7 +397,7 @@
         });
 
         headingRow.appendChild(applyStyles(ctx.el('h3', { text: 'Release notes draft' }), {
-          color: '#f8fafc',
+          color: 'var(--text)',
           fontSize: '15px',
           margin: '0'
         }));
@@ -420,10 +420,10 @@
 
         if (state.draft) {
           section.appendChild(applyStyles(ctx.el('pre', { text: state.draft }), {
-            background: '#020617',
-            border: '1px solid #334155',
+            background: 'var(--code-bg)',
+            border: '1px solid var(--border)',
             borderRadius: '12px',
-            color: '#e2e8f0',
+            color: 'var(--text)',
             fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
             fontSize: '13px',
             lineHeight: '1.55',
@@ -451,17 +451,17 @@
 
         clear(container);
         root = applyStyles(ctx.el('div'), {
-          background: '#111827',
-          border: '1px solid #1f2937',
+          background: 'var(--panel)',
+          border: '1px solid var(--border)',
           borderRadius: '16px',
-          color: '#e2e8f0',
+          color: 'var(--text)',
           display: 'grid',
           gap: '16px',
           padding: '18px'
         });
 
         root.appendChild(applyStyles(ctx.el('h2', { text: 'Changelog' }), {
-          color: '#f8fafc',
+          color: 'var(--text)',
           fontSize: '20px',
           margin: '0'
         }));

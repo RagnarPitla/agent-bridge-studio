@@ -6,6 +6,25 @@
   'use strict';
   const bridge = window.bridge;
 
+  // ---- theme (applied immediately to avoid a flash) -----------------------
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem('abs-theme', theme);
+    } catch (e) {
+      /* ignore */
+    }
+    const btn = document.getElementById('themeToggle');
+    if (btn) btn.textContent = theme === 'light' ? '☀️' : '🌙';
+  }
+  let currentTheme = 'dark';
+  try {
+    currentTheme = localStorage.getItem('abs-theme') || 'dark';
+  } catch (e) {
+    /* ignore */
+  }
+  document.documentElement.setAttribute('data-theme', currentTheme);
+
   // ---- tiny DOM helper -----------------------------------------------------
   function el(tag, props, ...children) {
     const node = document.createElement(tag);
@@ -684,6 +703,11 @@
       features.unshift({ ...board });
 
       $('addProject').addEventListener('click', addProject);
+      applyTheme(currentTheme);
+      $('themeToggle').addEventListener('click', () => {
+        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+        applyTheme(currentTheme);
+      });
       bindDrawer();
 
       try {

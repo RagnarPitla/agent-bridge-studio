@@ -87,10 +87,10 @@
             height: '100%',
             minHeight: '320px',
             boxSizing: 'border-box',
-            background: '#020617',
-            color: '#9ca3af',
+            background: 'var(--code-bg)',
+            color: 'var(--muted)',
             padding: '24px',
-            border: '1px solid #1f2937',
+            border: '1px solid var(--border)',
             borderRadius: '12px'
           });
           container.appendChild(makeEl(ctx, 'div', {
@@ -101,16 +101,16 @@
 
         function styleButton(button, isActive) {
           setStyles(button, {
-            border: '1px solid ' + (isActive ? '#60a5fa' : '#334155'),
+            border: '1px solid ' + (isActive ? 'var(--accent)' : 'var(--border)'),
             borderRadius: '10px',
-            background: isActive ? '#1d4ed8' : '#111827',
-            color: '#f8fafc',
+            background: isActive ? 'var(--accent)' : 'var(--code-bg)',
+            color: 'var(--text)',
             padding: '9px 12px',
             font: 'inherit',
             fontWeight: '700',
             cursor: button.disabled ? 'not-allowed' : 'pointer',
             opacity: button.disabled ? '0.55' : '1',
-            boxShadow: isActive ? '0 8px 18px rgba(37,99,235,0.25)' : 'none'
+            boxShadow: isActive ? '0 8px 18px var(--accent)' : 'none'
           });
         }
 
@@ -127,16 +127,16 @@
           if (!statusEl) return;
           if (running) {
             statusEl.textContent = 'Generating… (this runs the agent and can take ~10-60s)';
-            setStyles(statusEl, { color: '#bfdbfe' });
+            setStyles(statusEl, { color: 'var(--accent)' });
           } else if (errorText) {
             statusEl.textContent = 'Error: ' + errorText;
-            setStyles(statusEl, { color: '#fecaca' });
+            setStyles(statusEl, { color: 'var(--red)' });
           } else if (currentMarkdown) {
             statusEl.textContent = 'Generated suggestions for ' + (currentKind || 'project') + '.';
-            setStyles(statusEl, { color: '#94a3b8' });
+            setStyles(statusEl, { color: 'var(--muted)' });
           } else {
             statusEl.textContent = 'Choose a category to ask the agent for suggestions.';
-            setStyles(statusEl, { color: '#94a3b8' });
+            setStyles(statusEl, { color: 'var(--muted)' });
           }
         }
 
@@ -150,7 +150,7 @@
           var heading = makeEl(ctx, 'div', { text: 'Turn suggestions into tasks' });
           setStyles(heading, {
             margin: '18px 0 10px',
-            color: '#f8fafc',
+            color: 'var(--text)',
             fontSize: '13px',
             fontWeight: '800',
             letterSpacing: '0.02em'
@@ -166,14 +166,14 @@
               alignItems: 'start',
               padding: '10px',
               marginBottom: '8px',
-              border: '1px solid #1f2937',
+              border: '1px solid var(--border)',
               borderRadius: '10px',
-              background: '#0f172a'
+              background: 'var(--panel)'
             });
 
             var text = makeEl(ctx, 'div', { text: item });
             setStyles(text, {
-              color: '#d1d5db',
+              color: 'var(--text)',
               whiteSpace: 'pre-wrap',
               overflowWrap: 'anywhere',
               lineHeight: '1.4',
@@ -187,10 +187,10 @@
               addButton.setAttribute('title', 'Task creation is not available.');
             }
             setStyles(addButton, {
-              border: '1px solid #2563eb',
+              border: '1px solid var(--accent)',
               borderRadius: '9px',
-              background: canCreateTask ? '#2563eb' : '#1f2937',
-              color: '#ffffff',
+              background: canCreateTask ? 'var(--accent)' : 'var(--panel2)',
+              color: 'var(--text)',
               padding: '8px 10px',
               font: 'inherit',
               fontWeight: '700',
@@ -225,10 +225,10 @@
           setStyles(pre, {
             margin: '16px 0 0',
             padding: '14px',
-            border: '1px solid #1f2937',
+            border: '1px solid var(--border)',
             borderRadius: '12px',
-            background: '#020617',
-            color: '#e5e7eb',
+            background: 'var(--code-bg)',
+            color: 'var(--text)',
             whiteSpace: 'pre-wrap',
             overflowWrap: 'anywhere',
             lineHeight: '1.5',
@@ -291,30 +291,30 @@
             height: '100%',
             minHeight: '420px',
             boxSizing: 'border-box',
-            background: '#020617',
-            color: '#e5e7eb'
+            background: 'var(--code-bg)',
+            color: 'var(--text)'
           });
 
           var root = makeEl(ctx, 'div', { class: 'roadmap-root' });
           setStyles(root, {
             minHeight: '420px',
             boxSizing: 'border-box',
-            border: '1px solid #1f2937',
+            border: '1px solid var(--border)',
             borderRadius: '12px',
-            background: 'linear-gradient(180deg, #0f172a 0%, #020617 100%)',
+            background: 'linear-gradient(180deg, var(--panel) 0%, var(--code-bg) 100%)',
             overflow: 'hidden'
           });
 
           var header = makeEl(ctx, 'div', { class: 'roadmap-header' });
           setStyles(header, {
             padding: '16px',
-            borderBottom: '1px solid #1f2937',
-            background: '#0f172a'
+            borderBottom: '1px solid var(--border)',
+            background: 'var(--panel)'
           });
 
           var title = makeEl(ctx, 'div', { text: 'Roadmap' });
           setStyles(title, {
-            color: '#f8fafc',
+            color: 'var(--text)',
             fontSize: '16px',
             fontWeight: '800'
           });
@@ -324,7 +324,7 @@
           });
           setStyles(subtitle, {
             marginTop: '5px',
-            color: '#94a3b8',
+            color: 'var(--muted)',
             fontSize: '12px'
           });
 

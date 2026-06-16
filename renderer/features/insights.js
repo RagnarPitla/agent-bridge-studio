@@ -87,10 +87,10 @@
             lineHeight: '1.45',
             padding: '10px 12px',
             borderRadius: '14px',
-            border: '1px solid ' + (isError ? '#7f1d1d' : (isUser ? '#1d4ed8' : '#374151')),
-            background: isError ? '#3f1111' : (isUser ? '#1d4ed8' : '#111827'),
-            color: isError ? '#fecaca' : '#f9fafb',
-            boxShadow: '0 8px 18px rgba(0,0,0,0.22)'
+            border: '1px solid ' + (isError ? 'var(--red)' : (isUser ? 'var(--accent)' : 'var(--border)')),
+            background: isError ? 'var(--panel2)' : (isUser ? 'var(--accent)' : 'var(--panel2)'),
+            color: isError ? 'var(--red)' : 'var(--text)',
+            boxShadow: '0 8px 18px var(--border)'
           });
 
           bubble.textContent = text;
@@ -115,7 +115,7 @@
 
           var hint = makeEl(ctx, 'div', { text: 'Select a project to chat about it.' });
           setStyles(hint, {
-            color: '#9ca3af',
+            color: 'var(--muted)',
             padding: '24px',
             fontSize: '14px'
           });
@@ -155,9 +155,9 @@
             height: '100%',
             minHeight: '420px',
             boxSizing: 'border-box',
-            background: '#020617',
-            color: '#e5e7eb',
-            border: '1px solid #1f2937',
+            background: 'var(--code-bg)',
+            color: 'var(--text)',
+            border: '1px solid var(--border)',
             borderRadius: '12px',
             overflow: 'hidden'
           });
@@ -165,22 +165,22 @@
           header = makeEl(ctx, 'div', { class: 'insights-header' });
           setStyles(header, {
             padding: '14px 16px',
-            borderBottom: '1px solid #1f2937',
-            background: '#0f172a'
+            borderBottom: '1px solid var(--border)',
+            background: 'var(--panel)'
           });
 
           var title = makeEl(ctx, 'div', { text: 'Insights' });
           setStyles(title, {
             fontSize: '16px',
             fontWeight: '700',
-            color: '#f8fafc'
+            color: 'var(--text)'
           });
 
           var subtitle = makeEl(ctx, 'div', { text: project.name || project.path || 'Active project' });
           setStyles(subtitle, {
             marginTop: '4px',
             fontSize: '12px',
-            color: '#94a3b8'
+            color: 'var(--muted)'
           });
 
           header.appendChild(title);
@@ -191,7 +191,7 @@
             flex: '1 1 auto',
             overflowY: 'auto',
             padding: '16px',
-            background: 'linear-gradient(180deg, #020617 0%, #0b1120 100%)'
+            background: 'linear-gradient(180deg, var(--code-bg) 0%, var(--code-bg) 100%)'
           });
 
           var composer = makeEl(ctx, 'div', { class: 'insights-composer' });
@@ -199,8 +199,8 @@
             display: 'flex',
             gap: '10px',
             padding: '14px',
-            borderTop: '1px solid #1f2937',
-            background: '#0f172a',
+            borderTop: '1px solid var(--border)',
+            background: 'var(--panel)',
             alignItems: 'flex-end'
           });
 
@@ -216,9 +216,9 @@
             maxHeight: '180px',
             boxSizing: 'border-box',
             borderRadius: '10px',
-            border: '1px solid #334155',
-            background: '#020617',
-            color: '#e5e7eb',
+            border: '1px solid var(--border)',
+            background: 'var(--code-bg)',
+            color: 'var(--text)',
             padding: '10px 12px',
             outline: 'none',
             font: 'inherit',
@@ -228,10 +228,10 @@
           sendButton = makeEl(ctx, 'button', { type: 'button', text: 'Send' });
           setStyles(sendButton, {
             flex: '0 0 auto',
-            border: '1px solid #2563eb',
+            border: '1px solid var(--accent)',
             borderRadius: '10px',
-            background: '#2563eb',
-            color: '#ffffff',
+            background: 'var(--accent)',
+            color: 'var(--text)',
             padding: '10px 16px',
             fontWeight: '700',
             minHeight: '42px'
@@ -305,9 +305,9 @@
             var message = error && error.message ? error.message : String(error || 'Unknown error');
             thinkingBubble.textContent = 'Error: ' + message;
             setStyles(thinkingBubble, {
-              border: '1px solid #7f1d1d',
-              background: '#3f1111',
-              color: '#fecaca'
+              border: '1px solid var(--red)',
+              background: 'var(--panel2)',
+              color: 'var(--red)'
             });
             if (ctx.toast) ctx.toast('Insights failed: ' + message);
             scrollToBottom();

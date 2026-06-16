@@ -27,7 +27,7 @@
 
       function muted(text) {
         return style(ctx.el('div', { class: 'muted', text: text }), {
-          color: 'rgba(255, 255, 255, 0.62)',
+          color: 'var(--muted)',
           padding: '18px',
         });
       }
@@ -35,10 +35,10 @@
       function card() {
         const el = ctx.el('div', { class: 'panel card' });
         style(el, {
-          border: '1px solid rgba(255, 255, 255, 0.12)',
+          border: '1px solid var(--border)',
           borderRadius: '12px',
           padding: '16px',
-          background: 'rgba(255, 255, 255, 0.04)',
+          background: 'var(--panel2)',
         });
         return el;
       }
@@ -75,7 +75,7 @@
             marginBottom: '4px',
           }),
           style(ctx.el('div', { class: 'muted', text: project.path || '' }), {
-            color: 'rgba(255, 255, 255, 0.58)',
+            color: 'var(--muted)',
             fontSize: '12px',
             wordBreak: 'break-all',
           })
@@ -107,12 +107,12 @@
         const message = error && error.message ? error.message : asText(error) || 'Unknown error';
         const errorCard = card();
         errorCard.appendChild(style(ctx.el('div', { text: 'Could not load project context.' }), {
-          color: '#ffb4b4',
+          color: 'var(--red)',
           fontWeight: '700',
           marginBottom: '8px',
         }));
         errorCard.appendChild(style(ctx.el('div', { text: message }), {
-          color: 'rgba(255, 255, 255, 0.78)',
+          color: 'var(--text)',
           whiteSpace: 'pre-wrap',
         }));
 
@@ -121,9 +121,9 @@
 
       function chip(text) {
         return style(ctx.el('span', { class: 'badge', text: text }), {
-          border: '1px solid rgba(255, 255, 255, 0.16)',
+          border: '1px solid var(--border)',
           borderRadius: '999px',
-          color: 'rgba(255, 255, 255, 0.86)',
+          color: 'var(--text)',
           display: 'inline-flex',
           fontSize: '12px',
           lineHeight: '1',
@@ -144,7 +144,7 @@
           });
         } else {
           section.appendChild(style(ctx.el('span', { class: 'muted', text: 'Stack: unknown' }), {
-            color: 'rgba(255, 255, 255, 0.62)',
+            color: 'var(--muted)',
           }));
         }
 
@@ -168,7 +168,7 @@
 
         if (!items.length) {
           list.appendChild(style(ctx.el('div', { class: 'muted', text: 'No top-level entries found.' }), {
-            color: 'rgba(255, 255, 255, 0.62)',
+            color: 'var(--muted)',
           }));
           return list;
         }
@@ -184,13 +184,13 @@
               whiteSpace: 'nowrap',
             }),
             style(ctx.el('span', { class: 'muted', text: asText(entry.type) }), {
-              color: 'rgba(255, 255, 255, 0.48)',
+              color: 'var(--muted)',
               fontSize: '12px',
               textTransform: 'uppercase',
             })
           ), {
             alignItems: 'center',
-            border: '1px solid rgba(255, 255, 255, 0.10)',
+            border: '1px solid var(--border)',
             borderRadius: '10px',
             display: 'grid',
             gap: '10px',
@@ -230,14 +230,14 @@
           marginBottom: '5px',
         }));
         summary.appendChild(style(ctx.el('div', { class: 'muted', text: root || '' }), {
-          color: 'rgba(255, 255, 255, 0.58)',
+          color: 'var(--muted)',
           fontSize: '12px',
           marginBottom: '12px',
           wordBreak: 'break-all',
         }));
         summary.appendChild(renderStack(data && data.stack));
         summary.appendChild(style(ctx.el('div', { text: readmeText }), {
-          color: data && data.readme ? '#9ee6a8' : 'rgba(255, 255, 255, 0.62)',
+          color: data && data.readme ? 'var(--green)' : 'var(--muted)',
           marginTop: '12px',
         }));
 
