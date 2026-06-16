@@ -1,8 +1,8 @@
 {
-  "name": "aperant-dual-cli-design",
+  "name": "agent-bridge-studio",
   "version": "0.1.0",
   "private": false,
-  "description": "Design for a dual GitHub Copilot CLI and Claude Code agent runner.",
+  "description": "Design for a local-first CLI-agent control plane supporting GitHub Copilot CLI and Claude Code.",
   "type": "module",
   "license": "MIT",
   "scripts": {

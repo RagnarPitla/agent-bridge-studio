@@ -11,7 +11,7 @@ const required = [
   'docs/copilot-cli-integration.md',
   'docs/claude-code-integration.md',
   'docs/github-gh-host-aware-design.md',
-  'docs/aperant-fit-analysis.md',
+  'docs/source-inspiration-analysis.md',
   'docs/security-model.md',
   'docs/implementation-plan.md',
   'docs/roadmap.md',

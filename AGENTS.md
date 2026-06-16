@@ -1,6 +1,6 @@
 # Agent Instructions
 
-This repository designs a dual-agent CLI execution layer.
+This repository designs the Agent Bridge Studio CLI-agent control plane.
 
 ## Mission
 
