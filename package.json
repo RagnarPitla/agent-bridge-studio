@@ -1,0 +1,13 @@
+{
+  "name": "aperant-dual-cli-design",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Design for a dual GitHub Copilot CLI and Claude Code agent runner.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "check:tools": "bash scripts/check-tools.sh",
+    "check:docs": "node scripts/check-docs.mjs"
+  },
+  "devDependencies": {}
+}
